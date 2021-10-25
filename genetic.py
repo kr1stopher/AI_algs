@@ -26,7 +26,7 @@ def generate_genome():
 
 def mutate_genome(genome):
     for gene in genome:
-        if (random.randint(0,100) <= 15): #5% chance of mutation
+        if (random.randint(0,100) <= 10): #5% chance of mutation
             gene =  abs(gene-1) #change 1<->0
             print("There was a mutation")
 
@@ -37,8 +37,7 @@ def mutate_genome(genome):
 #genetic alg
 def genetic_alg ():
     population = [] # population = [[xi,f(xi)]....[xn,f(xn)]] where xi is genome i and f(xi) is the fitness of that genome
-    population_size = 12 #population size
-
+    population_size = 6*15 #population size (must be divisible by 6)
     #generate population of desired size
     for i in range(population_size):
         population.append(generate_genome())
@@ -49,7 +48,7 @@ def genetic_alg ():
 
     generation = 0
     #run the algorithm for 100 generations
-    while (generation<100): #can modify later to while(i<100 and fitness<goalFitness) to stop once a certain fitness level is reached
+    while (generation<50): #can modify later to while(i<100 and fitness<goalFitness) to stop once a certain fitness level is reached
         genome_weights = [] #the weights of each genome for selection will be their fitness score
         parents = [] #list for the parents of the next generation
 
@@ -58,7 +57,7 @@ def genetic_alg ():
 
         #select 2 pairs of parents parents
         print(genome_weights)
-        for i in range(4):
+        for i in range(int(population_size/3)): #assumes population size is chosen s.t. selected parents will have 4 children per pair of parents
             newParent = (random.choices(population, weights = genome_weights)) #add selected to parents list
             parents.append(newParent[0])
             genome_weights.pop(population.index(parents[-1])) #remove recently added parent from genome_weights
